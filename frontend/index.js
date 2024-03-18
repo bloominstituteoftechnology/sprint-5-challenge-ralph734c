@@ -64,10 +64,29 @@ async function sprintChallenge5() { // Note the async keyword, in case you wish 
         })
       return newLearnerCard;
     }
+    let allLearnerCards = document.querySelectorAll(".card");
+
+    allLearnerCards.forEach(learnerCard => {
+      learnerCard.addEventListener("click", (evt) => {
+        allLearnerCards.forEach(learnerCard => {
+          learnerCard.classList.remove("selected")
+        })
+        evt.currentTarget.classList.add("selected")
+        document.querySelector("p.info").textContent = `
+          The selected learner is ${evt.currentTarget.firstChild.textContent}`
+        if (evt.target.classList.contains("closed") && evt.target.innerText === "Mentors") {
+          evt.target.classList.remove("closed")
+          evt.target.classList.add("open")
+        } else if (evt.target.classList.contains("open") && evt.target.innerText === "Mentors"){
+          evt.target.classList.add("closed")
+          evt.target.classList.remove("open")
+        }
+      })
+    })
 
   const footer = document.querySelector('footer')
   const currentYear = new Date().getFullYear()
-  footer.textContent = `© BLOOM INSTITUTE OF TECHNOLOGY ${currentYear}`
+  footer.textContent = `© BLOOM INSTITUTE OF TECHNOLOGY ${currentYear - 1}`
 
   // 👆 WORK WORK ABOVE THIS LINE 👆
 }
