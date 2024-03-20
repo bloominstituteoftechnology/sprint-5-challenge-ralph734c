@@ -58,22 +58,27 @@ async function sprintChallenge5() { // Note the async keyword, in case you wish 
       newLearnerCard.appendChild(learnerMentorsList)
 
       learner.mentors.forEach(mentor => {
-        const learnerMentorsListItem = document.createElement("il")
+        const learnerMentorsListItem = document.createElement("li")
         learnerMentorsListItem.textContent = mentor
         learnerMentorsList.appendChild(learnerMentorsListItem)
         })
       return newLearnerCard;
     }
     let allLearnerCards = document.querySelectorAll(".card");
-
     allLearnerCards.forEach(learnerCard => {
       learnerCard.addEventListener("click", (evt) => {
-        allLearnerCards.forEach(learnerCard => {
-          learnerCard.classList.remove("selected")
-        })
-        evt.currentTarget.classList.add("selected")
-        document.querySelector("p.info").textContent = `
-          The selected learner is ${evt.currentTarget.firstChild.textContent}`
+        if (evt.currentTarget && evt.currentTarget.classList.contains("selected")) {
+          evt.currentTarget.classList.toggle("selected")
+          document.querySelector("p.info").textContent = "No learner is selected"
+        } else {
+          allLearnerCards.forEach(learnerCard => {
+            learnerCard.classList.remove("selected")
+          })
+          evt.currentTarget.classList.add("selected")
+          document.querySelector("p.info").textContent = `
+            The selected learner is ${evt.currentTarget.firstChild.textContent}`
+        }
+
         if (evt.target.classList.contains("closed") && evt.target.innerText === "Mentors") {
           evt.target.classList.remove("closed")
           evt.target.classList.add("open")
